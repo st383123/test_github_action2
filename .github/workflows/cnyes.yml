@@ -27,10 +27,10 @@ jobs:
         
       - name: save csv
         env:
-          CNYES_TOKEN: ${{ secrets.CNYES_TOKEN }}
+          TOKEN: ${{ secrets.CNYES_TOKEN }}
         run: |
           git config --global user.email "iidpst@gmail.com"
           git config --global user.name "stanley.lai"
           git add news.csv
-          git commit -m "更新鉅亨網新聞"
-          git push https://github.com/st383123/test_github_action2.git
+          git commit -m "更新鉅亨網新聞" || echo "no changes"
+          git push https://x-access-token:${TOKEN}@github.com/st383123/test_github_action2.git
