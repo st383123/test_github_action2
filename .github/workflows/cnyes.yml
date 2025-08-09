@@ -31,4 +31,4 @@ jobs:
           git config --global user.name "stanley.lai"
           git add news.csv
           git commit -m "更新鉅亨網新聞"
-          git push origin main
+          git push https://st383123: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github.com/st383123/test_github_action2.git
