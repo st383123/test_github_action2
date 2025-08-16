@@ -1,11 +1,14 @@
 name: Build Reusable
 
 on:
-  workflow_call:
+  workflow_call: # This workflow can be called by other workflows
+    # 要被另外一個yml觸發
+    # 接收其它的 action 或 workflow 呼叫
     inputs:
-      version:
-        required: true
-        type: string
+      version:          #外部呼叫的參數名稱
+        required: true  #參數的必要性
+        type: string    #支援 int, boolean, string
+        default: "3.10"
 
 jobs:
   build:
