@@ -2,22 +2,22 @@ name: 鉅亨網新聞抓取
 
 on:
   schedule:
-  - cron: "0 * * * *" # 每小時 UTC 0 分執行(台灣時間 +8 小時)
-  workflow_dispatch: # 允許手動觸發
+    - cron: "0 */2 * * *"  # 每天 UTC 00:00 執行（台灣時間 +8 小時）
+  workflow_dispatch:       # 允許手動觸發
 
 permissions:
   contents: write
-
+  
 jobs:
-  scrape-news:
+  update-sheet:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          persist-credentials: true #
-
+          persist-credentials: true  # 預設即為 true，保險寫上
+          
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -31,13 +31,11 @@ jobs:
         run: python cnyes.py
         
       - name: save csv
-        env:
-          TOKEN: ${{ secrets.CNYES_TOKEN }}
         run: |
+          git config --global user.name "機器人"
           git config --global user.email "iidpst@gmail.com"
-          git config --global user.name "自動排程機器人"
-          if git diff --cached --quiet; then 
-            echo "no changes to commit"
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
             exit 0
           fi
           git add -A
