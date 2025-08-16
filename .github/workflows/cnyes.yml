@@ -5,6 +5,9 @@ on:
   - cron: "0 * * * *" # 每小時 UTC 0 分執行(台灣時間 +8 小時)
   workflow_dispatch: # 允許手動觸發
 
+permissions:
+  contents: write
+
 jobs:
   scrape-news:
     runs-on: ubuntu-latest
@@ -30,7 +33,11 @@ jobs:
           TOKEN: ${{ secrets.CNYES_TOKEN }}
         run: |
           git config --global user.email "iidpst@gmail.com"
-          git config --global user.name "stanley.lai"
-          git add news.csv
-          git commit -m "更新鉅亨網新聞" || echo "no changes"
-          git push https://x-access-token:${TOKEN}@github.com/st383123/test_github_action2.git
+          git config --global user.name "自動排程機器人"
+          if git diff --cached --quiet; then 
+            echo "no changes to commit"
+            exit 0
+          fi
+          git add -A
+          git commit -m "更新鉅亨網新聞"
+          git push
