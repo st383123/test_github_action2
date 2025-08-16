@@ -34,10 +34,10 @@ jobs:
         run: |
           git config --global user.name "機器人"
           git config --global user.email "iidpst@gmail.com"
-          # if git diff --cached --quiet; then
-          #   echo "No changes to commit"
-          #   exit 0
-          # fi
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
           git add -A
           git commit -m "更新鉅亨網新聞"
           git push
